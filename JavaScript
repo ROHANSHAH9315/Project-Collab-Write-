@@ -1,0 +1,37 @@
+const editor = document.getElementById("editor");
+const wordCount = document.getElementById("wordCount");
+const charCount = document.getElementById("charCount");
+
+// Word & Character Counter
+editor.addEventListener("input", () => {
+    const text = editor.innerText.trim();
+    wordCount.textContent = text ? text.split(/\s+/).length : 0;
+    charCount.textContent = text.length;
+});
+
+// Save to Local Storage
+window.addEventListener("beforeunload", () => {
+    localStorage.setItem("collabText", editor.innerHTML);
+});
+
+// Load saved text
+window.addEventListener("load", () => {
+    const savedText = localStorage.getItem("collabText");
+    if (savedText) editor.innerHTML = savedText;
+});
+
+// Copy to Clipboard
+function copyText() {
+    navigator.clipboard.writeText(editor.innerText);
+    alert("📋 Copied!");
+}
+
+// Insert Emoji
+function insertEmoji(emoji) {
+    document.execCommand("insertText", false, emoji);
+}
+
+// Theme Toggle
+function toggleTheme() {
+    document.body.classList.toggle("light-mode");
+}
